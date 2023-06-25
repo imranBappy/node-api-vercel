@@ -2,7 +2,7 @@ const Auth = require("../models/Auth");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sentEmail");
 var jwt = require('jsonwebtoken');
-
+const JWT_SECRET = '123';
 exports.authGetController = async (req, res, next) => {
     try {
         const user = await Auth.findById(req.query.id)
@@ -38,7 +38,7 @@ exports.signupController = async (req, res, next) => {
         sendEmail(email, name)
         const token = jwt.sign({
             data: { _id: newUser._id, name: newUser.name, url: newUser.url }
-        }, process.env.JWT_SECRET, { expiresIn: '7d' })
+        }, JWT_SECRET, { expiresIn: '7d' })
         res.json({
             isAuthintication: true,
             data: newUser,
@@ -71,7 +71,7 @@ exports.singinPostController = async (req, res, next) => {
 
         const token = jwt.sign({
             data: { _id: std._id, name: std.name, url: std.url }
-        }, process.env.JWT_SECRET, { expiresIn: '7d' })
+        }, JWT_SECRET, { expiresIn: '7d' })
         res.json({
             isAuthintication: true,
             data: std,

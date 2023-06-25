@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = '123';
 const isAuthenticated = (req, res, next) => {
     try {
         const { authorization } = req.headers;
@@ -7,7 +8,7 @@ const isAuthenticated = (req, res, next) => {
             message: 'User Unauthorized',
             error: true
         })
-        const decode = jwt.verify(authorization, process.env.JWT_SECRET);
+        const decode = jwt.verify(authorization, JWT_SECRET);
         req.user = decode.data;
         next();
     } catch (error) {
